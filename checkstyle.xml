@@ -124,7 +124,7 @@
         <!-- See http://checkstyle.sf.net/config_design.html -->
         <module name="FinalClass"/>
         <module name="HideUtilityClassConstructor"/>
-        <module name="InterfaceIsType"/>
+<!--        <module name="InterfaceIsType"/>-->
         <!-- use @com.google.common.annotations.VisibleForTesting for members that need to be accessed in test -->
         <module name="VisibilityModifier"/>
 

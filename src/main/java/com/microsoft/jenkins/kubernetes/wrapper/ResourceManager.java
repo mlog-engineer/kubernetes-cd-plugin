@@ -43,12 +43,17 @@ public abstract class ResourceManager {
     protected abstract class ResourceUpdater<T> {
         private final T resource;
         private final V1ObjectMeta metadata;
+        private String tenantCode;
+        private String projectName;
+        private String appCode;
 
         ResourceUpdater(T resource) {
             checkNotNull(resource);
+
             this.resource = resource;
             V1ObjectMeta meta = null;
             try {
+
                 Method method = resource.getClass().getMethod("getMetadata");
                 meta = (V1ObjectMeta) method.invoke(resource);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {

@@ -13,7 +13,7 @@
     <packaging>hpi</packaging>
 
     <properties>
-        <revision>2.3.1</revision>
+        <revision>2.3.1-mlog</revision>
         <changelist>-SNAPSHOT</changelist>
         <!-- Baseline Jenkins version you use to build the plugin. Users must have this version or newer to run. -->
         <jenkins.version>2.60.3</jenkins.version>
@@ -26,7 +26,7 @@
         <workflow-step-api.version>2.10</workflow-step-api.version>
         <jackson.version>2.10.1</jackson.version>
 
-        <kubernetes-client.version>7.0.0</kubernetes-client.version>
+        <kubernetes-client.version>8.0.0</kubernetes-client.version>
     </properties>
 
     <name>Kubernetes Continuous Deploy Plugin</name>

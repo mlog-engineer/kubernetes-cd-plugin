@@ -9,6 +9,7 @@ package com.microsoft.jenkins.kubernetes;
 import com.cloudbees.plugins.credentials.CredentialsMatchers;
 import com.cloudbees.plugins.credentials.CredentialsProvider;
 import com.cloudbees.plugins.credentials.common.StandardListBoxModel;
+import com.cloudbees.plugins.credentials.common.StandardUsernameCredentials;
 import com.cloudbees.plugins.credentials.domains.DomainRequirement;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -69,6 +70,19 @@ public class KubernetesDeployContext extends BaseCommandContext implements
     private TextCredentials textCredentials;
 
     private String configs;
+
+    //应用托管平台Url
+    private String appManagerUrl;
+    //用用托管平台密钥Id
+    private String appManagerCredentialId;
+
+    //项目名称
+    private String projectName;
+    //租户空间编码
+    private String tenantCode;
+    //应用编码
+    private String appCode;
+
     private boolean enableConfigSubstitution;
 
     private String secretNamespace;
@@ -92,7 +106,6 @@ public class KubernetesDeployContext extends BaseCommandContext implements
                 .withSingleCommand(DeploymentCommand.class)
                 .withStartCommand(DeploymentCommand.class)
                 .build();
-
         final JobContext jobContext = new JobContext(run, workspace, launcher, listener);
         super.configure(jobContext, commandService);
     }
@@ -200,6 +213,46 @@ public class KubernetesDeployContext extends BaseCommandContext implements
     @DataBoundSetter
     public void setEnableConfigSubstitution(boolean enableConfigSubstitution) {
         this.enableConfigSubstitution = enableConfigSubstitution;
+    }
+    @Override
+    public String getProjectName() {
+        return projectName;
+    }
+    @DataBoundSetter
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+    @Override
+    public String getTenantCode() {
+        return tenantCode;
+    }
+    @DataBoundSetter
+    public void setTenantCode(String tenantCode) {
+        this.tenantCode = tenantCode;
+    }
+    @Override
+    public String getAppCode() {
+        return appCode;
+    }
+    @DataBoundSetter
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
+    }
+    @Override
+    public String getAppManagerUrl() {
+        return appManagerUrl;
+    }
+    @DataBoundSetter
+    public void setAppManagerUrl(String appManagerUrl) {
+        this.appManagerUrl = appManagerUrl;
+    }
+    @Override
+    public String getAppManagerCredentialId() {
+        return appManagerCredentialId;
+    }
+    @DataBoundSetter
+    public void setAppManagerCredentialId(String appManagerCredentialId) {
+        this.appManagerCredentialId = appManagerCredentialId;
     }
 
     public List<DockerRegistryEndpoint> getDockerCredentials() {
@@ -314,6 +367,13 @@ public class KubernetesDeployContext extends BaseCommandContext implements
             StandardListBoxModel model = new StandardListBoxModel();
             model.includeEmptyValue();
             model.includeAs(ACL.SYSTEM, owner, KubeconfigCredentials.class);
+            return model;
+        }
+
+        public ListBoxModel doFillAppManagerCredentialIdItems(@AncestorInPath Item owner) {
+            StandardListBoxModel model = new StandardListBoxModel();
+            model.includeEmptyValue();
+            model.includeAs(ACL.SYSTEM, owner, StandardUsernameCredentials.class);
             return model;
         }
 
@@ -459,13 +519,13 @@ public class KubernetesDeployContext extends BaseCommandContext implements
         }
 
         @Override
-        public java.lang.String getFunctionName() {
+        public String getFunctionName() {
             return "kubernetesDeploy";
         }
 
         @Nonnull
         @Override
-        public java.lang.String getDisplayName() {
+        public String getDisplayName() {
             return Messages.pluginDisplayName();
         }
     }
